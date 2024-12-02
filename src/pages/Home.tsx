@@ -2,7 +2,6 @@ import { axiosInstance } from "@/api/config";
 import HeaderText from "@/components/shared/HeaderText";
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
-import showcaseImage from "@/assets/ingredients.jpg";
 import { DataTable } from "@/components/shared/data-table";
 import { ingredientsColumn } from "@/components/columns/ingredientsColumn";
 import LoadingComponent from "@/components/shared/LoadingComponent";
@@ -59,10 +58,10 @@ const Home = () => {
           />
           <AddIngredientModal />
         </div>
-        <div className="w-full bg-primary-green-dark flex items-center justify-start relative overflow-hidden py-10 px-6  rounded-[10px]">
+        <div className="w-full bg-primary-green-dark flex items-center justify-start relative overflow-hidden py-10 px-6  rounded-[10px] background-Image">
           {/* eclipse */}
           {/* <div className="w-[200px] h-[200px] bg-primary-green-light blur-[108px] absolute -right-[95px] -top-[60px]"></div> */}
-          <div className="w-[200px] h-[200px] bg-primary-green-light blur-[108px] absolute -left-[95px] -top-[60px]"></div>
+          <div className="w-[500px] h-[500px] bg-primary-green-dark blur-[160px] absolute -left-[95px] -top-[60px]"></div>
           <div className="space-y-2  z-30 text-white">
             <h3 className="lg:text-40 text-2xl font-bold capitalize">
               discover All the ingredients
@@ -71,13 +70,6 @@ const Home = () => {
               and more
             </p>
           </div>
-          {/* <Icons.StickerIcon className="absolute lg:left-0 -left-2 bottom-0 h-20 w-28" />
-          <Icons.StickerFadedIcon className="absolute lg:left-0 -left-4 h-20 w-20" /> */}
-          <img
-            src={showcaseImage}
-            alt="image"
-            className="absolute right-0 w-full h-full  opacity-30 rotate-0"
-          />
         </div>
         {loading ? (
           <div className="flex items-center justify-center">

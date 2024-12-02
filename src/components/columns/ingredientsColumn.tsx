@@ -2,6 +2,7 @@ import { ingredientsType } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
+import AddIngredientModal from "../modal/AddIngredientModal";
 
 export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
   {
@@ -94,12 +95,7 @@ export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-start">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            onClick={() => console.log(row.original)}
-          >
-            Edit
-          </button>
+          <AddIngredientModal ingredient={row.original} isEdit />
         </div>
       );
     },

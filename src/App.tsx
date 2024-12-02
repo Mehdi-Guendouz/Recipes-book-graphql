@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Layout from "./components/shared/Layout";
 import PrivateRoutes from "./components/shared/PrivateRoutes";
 import RegisterPage from "./pages/RegisterPage";
+import RecipesPage from "./pages/RecipesPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<PrivateRoutes />}>
           <Route path="/" element={<Home />} />
+          <Route path="/recipes" element={<RecipesPage />} />
         </Route>
       </Route>
       <Route path="/login" element={<LoginPage />} />

@@ -17,6 +17,13 @@
   }
 }
 
+.background-Image {
+  background-image: url("/src/assets/ingredients_4.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .background-login {
   background-color: rgba(174, 215, 111, 0.13);
 }

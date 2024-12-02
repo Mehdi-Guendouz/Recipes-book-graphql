@@ -55,11 +55,22 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
     console.log(data);
     startTransition(() => {
       if (ingredient?.id) {
+        const query = `
+      mutation updateIngredient($id: ID!, $name: String!) {
+        updateIngredient(id: $id, name: $name) {
+          id
+          name
+        }
+      }
+    `;
         axiosInstance
-          .post("/")
+          .post("/", {
+            query,
+            variables: { id: ingredient.id, name: data.name },
+          })
           .then((res) => {
             console.log(res.data);
-            toast.success(" the ingredient has been added ");
+            toast.success(" the ingredient has been updated successfully ");
             IngredientsForm.reset();
             closeModal();
           })
@@ -83,7 +94,7 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
           })
           .then((res) => {
             console.log(res.data);
-            toast.success(" the ingredient has been added ");
+            toast.success(" the ingredient has been added successfully ");
             ingredientsStore.addIngredient({
               ...res.data.data.createIngredient,
               recipes: [],
@@ -112,14 +123,16 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
       <Button
         className="text-sm font-semibold text-white "
         onClick={openModal}
-        variant={isEdit ? "ghost" : "dark-green"}
+        variant={isEdit ? "outline" : "dark-green"}
         size={isEdit ? "icon" : "default"}
       >
-        {isEdit ? <Edit2 className="w-5 h-5" /> : "Add Ingredient"}
+        {isEdit ? <Edit2 className="w-5 h-5" color="#000" /> : "Add Ingredient"}
       </Button>
       <DialogContent>
         <DialogTitle className="text-left mt-4 text-2xl">
-          {isEdit ? "  Edit the ingredient" : "  Add Ingredient"}
+          {isEdit
+            ? `Edit the ingredient ${ingredient?.id}`
+            : "  Add Ingredient"}
         </DialogTitle>
         <Form {...IngredientsForm}>
           <form
