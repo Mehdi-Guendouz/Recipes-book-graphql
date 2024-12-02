@@ -66,7 +66,7 @@ const RecipesPage = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen lg:p-6 space-y-8">
+    <div className="w-full min-h-screen lg:p-6 space-y-8 pb-10">
       <div className="space-y-4">
         {/* toast */}
         <Toaster position="top-center" richColors />
@@ -114,9 +114,7 @@ const RecipesPage = () => {
                     </div>
                     {recipe.ingredients.length > 0 ? (
                       <div className="space-y-2">
-                        <h1 className="text-primary-black text-sm">
-                          Ingredients
-                        </h1>
+                        <h1 className="text-primary-black ">Ingredients:</h1>
                         <div className="flex flex-wrap gap-2">
                           {recipe.ingredients.map((ingredient) => (
                             <div
@@ -139,7 +137,7 @@ const RecipesPage = () => {
                 </Card>
               ))
             ) : (
-              <div className="flex items-center justify-center h-[400px]">
+              <div className="flex items-center justify-center h-[400px] w-full">
                 <p className="text-lg text-gray-500">
                   you don't have any recipe yet. It's the time to add your first
                 </p>

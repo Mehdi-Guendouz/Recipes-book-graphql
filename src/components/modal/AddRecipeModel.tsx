@@ -179,7 +179,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
               category: data.category,
               time: data.time,
               difficulty: data.difficulty,
-              description: data.difficulty,
+              description: data.description,
             },
           })
           .then((res) => {
@@ -358,9 +358,9 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
                       </FormControl>
                       <SelectContent className="w-full">
                         {categories.length >= 1 ? (
-                          categories.map((category) => (
+                          categories.map((category, index) => (
                             <SelectItem
-                              key={category.id}
+                              key={index}
                               value={
                                 category.name ? category.name : "no category"
                               }
