@@ -222,11 +222,11 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
         variant={isEdit ? "outline" : "dark-green"}
         size={isEdit ? "icon" : "default"}
       >
-        {isEdit ? <Edit2 className="w-5 h-5" color="#000" /> : "Add Ingredient"}
+        {isEdit ? <Edit2 className="w-5 h-5" color="#000" /> : "Add Recipe"}
       </Button>
       <DialogContent>
         <DialogTitle className="text-left mt-4 text-2xl">
-          {isEdit ? `Edit the ingredient ` : "  Add Ingredient"}
+          {isEdit ? `Edit the Recipe ` : "  Add Recipe"}
         </DialogTitle>
         <ScrollArea className="h-[400px] ">
           <Form {...recipeForm}>
