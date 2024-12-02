@@ -1,11 +1,22 @@
 import { ingredientsType } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "../ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
   {
     accessorKey: "id",
-    header: () => {
-      return <div className="flex items-center justify-start">ID</div>;
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 "
+        >
+          ID
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => {
       return (
@@ -15,8 +26,17 @@ export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
   },
   {
     accessorKey: "name",
-    header: () => {
-      return <div className="flex items-center justify-start">Name</div>;
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 "
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => {
       return (
@@ -28,8 +48,17 @@ export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
   },
   {
     accessorKey: "recipes",
-    header: () => {
-      return <div className="flex items-center justify-start">Recipes</div>;
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 "
+        >
+          List of Recipes
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
     },
     cell: ({ row }) => {
       const recipes = row.original.recipes;

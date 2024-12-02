@@ -1,9 +1,14 @@
+import * as React from "react";
 import {
   ColumnDef,
   flexRender,
   getPaginationRowModel,
+  getFilteredRowModel,
+  ColumnFiltersState,
   getCoreRowModel,
   useReactTable,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -16,6 +21,8 @@ import {
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
+import HeaderText from "./HeaderText";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -28,11 +35,23 @@ export function DataTable<TData, TValue>({
   data,
   isOrderPage,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
   });
 
   const navigate = useNavigate();
@@ -50,8 +69,26 @@ export function DataTable<TData, TValue>({
   };
 
   return (
-    <div>
+    <div className=" ">
       <div className="rounded-md border ">
+        <div className="flex items-center justify-between px-4">
+          <HeaderText
+            text="search for ingredients"
+            className="text-xl font-bold text-primary-black"
+          />
+          <div className="flex items-center py-4 w-[400px]">
+            <Input
+              placeholder="Filter ingredients..."
+              value={
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        </div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
