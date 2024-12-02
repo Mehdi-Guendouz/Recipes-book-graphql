@@ -433,7 +433,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
                 render={({ field }) => (
                   <FormItem className="w-full flex flex-col ">
                     <FormLabel className="lg:text-xl text-base font-medium text-main-black lg:font-semibold">
-                      الوصف
+                      description
                     </FormLabel>
                     <FormControl>
                       <Textarea
