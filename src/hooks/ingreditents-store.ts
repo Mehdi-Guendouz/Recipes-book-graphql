@@ -4,7 +4,7 @@ import { create } from "zustand";
 interface Ingredient {
   ingredients: ingredientsType[];
   addIngredient: (ingredient: ingredientsType) => void;
-  removeIngredient: (ingredient: ingredientsType) => void;
+  removeIngredient: (ingredientId: string) => void;
   updateIngredient: (ingredient: ingredientsType) => void;
   setIngredients: (ingredients: ingredientsType[]) => void;
 }
@@ -13,9 +13,9 @@ export const useIngredientsStore = create<Ingredient>((set) => ({
   ingredients: [],
   addIngredient: (ingredient) =>
     set((state) => ({ ingredients: [...state.ingredients, ingredient] })),
-  removeIngredient: (ingredient) =>
+  removeIngredient: (ingredientId) =>
     set((state) => ({
-      ingredients: state.ingredients.filter((i) => i.id !== ingredient.id),
+      ingredients: state.ingredients.filter((i) => i.id !== ingredientId),
     })),
   updateIngredient: (ingredient) =>
     set((state) => ({

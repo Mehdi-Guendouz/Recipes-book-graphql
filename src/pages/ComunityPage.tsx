@@ -1,6 +1,4 @@
 import { axiosInstance } from "@/api/config";
-import AddRecipeModel from "@/components/modal/AddRecipeModel";
-import AlertDialogModal from "@/components/modal/AlertDialogModal";
 import CardDifficulty from "@/components/shared/CardDifficulty";
 import HeaderText from "@/components/shared/HeaderText";
 import LoadingComponent from "@/components/shared/LoadingComponent";
@@ -12,48 +10,48 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRecipeStore } from "@/hooks/recipe-store";
+import { recipeCommunityType } from "@/types";
 import { Clock1 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
 
-const RecipesPage = () => {
+const CommunityPage = () => {
   const [loading, setLoading] = useState(true);
-
-  const recipesStore = useRecipeStore();
+  const [recipes, setRecipes] = useState<recipeCommunityType[]>([]);
 
   const getRecipes = () => {
     setLoading(true);
     const query = `
-    query GetMyRecipes {
-  getMyRecipes {
-    id
-          title
-          description
-          difficulty
-          time
-          ingredients {
-            id
-            name
-          }
-          category {
-            id
-            name
-          }
-          createdBy {
-            id
-            username
-          }
-  }
-}
-    `;
+    query {
+      getRecipes {
+        id
+        title
+        description
+        difficulty
+        time
+        ingredients {
+          id
+          name
+        }
+        category {
+          id
+          name
+        }
+        createdBy {
+          id
+          username
+        }
+      }
+    }
+  `;
     axiosInstance
       .post("/", {
         query,
       })
       .then((res) => {
-        console.log(res.data);
-        recipesStore.setRecipes(res.data.data.getMyRecipes);
+        console.log(res.data.data.getRecipes);
+        setRecipes(res.data.data.getRecipes);
+        console.log(recipes);
       })
       .catch((error) => {
         console.error(error);
@@ -66,18 +64,19 @@ const RecipesPage = () => {
   useEffect(() => {
     getRecipes();
   }, []);
-
   return (
     <div className="w-full min-h-screen lg:p-6 space-y-8 pb-10">
       <div className="space-y-4">
         {/* toast */}
         <Toaster position="top-center" richColors />
-        <div className="flex items-center  justify-between">
+        <div className=" space-y-2">
           <HeaderText
-            text="My Recipes"
+            text="community recipes"
             className="font-bold lg:text-4xl text-2xl text-primary-grey-700 px-6 lg:px-0 pt-5 lg:py-0"
           />
-          <AddRecipeModel />
+          <p className="text-primary-grey-700 capitalize text-base font-normal">
+            discover other people's recipes and enjoy cooking with them.
+          </p>
         </div>
       </div>
       <div>
@@ -87,8 +86,8 @@ const RecipesPage = () => {
           </div>
         ) : (
           <div className=" flex items-start flex-wrap gap-4">
-            {recipesStore.recipes.length > 0 ? (
-              recipesStore.recipes.map((recipe) => (
+            {recipes.length > 0 ? (
+              recipes.map((recipe) => (
                 <Card key={recipe.id} className="w-[300px] min-h-[300px]">
                   <CardHeader className="space-y-1">
                     <CardTitle className="flex items-center gap-2 justify-between">
@@ -103,9 +102,11 @@ const RecipesPage = () => {
                       </div>
                     </CardTitle>
                     <CardDifficulty difficulty={recipe.difficulty} />
-                    <CardDescription className="text-primary-grey-700">
-                      category: {recipe.category.name}
-                    </CardDescription>
+                    {recipe.category && (
+                      <CardDescription className="text-primary-grey-700">
+                        category: {recipe.category.name}
+                      </CardDescription>
+                    )}
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <div className="">
@@ -136,14 +137,15 @@ const RecipesPage = () => {
                       </div>
                     )}
                   </CardContent>
-                  <CardFooter className="space-x-2">
-                    <AddRecipeModel recipe={recipe} isEdit />
-                    <AlertDialogModal
-                      text={recipe.title}
-                      id={recipe.id}
-                      isRecipeDeleted
-                    />
-                  </CardFooter>
+                  {recipe.createdBy && (
+                    <CardFooter className="flex items-center justify-between">
+                      <div>
+                        <p className="text-primary-grey-700 text-sm">
+                          created by: {recipe.createdBy.username}
+                        </p>
+                      </div>
+                    </CardFooter>
+                  )}
                 </Card>
               ))
             ) : (
@@ -160,4 +162,4 @@ const RecipesPage = () => {
   );
 };
 
-export default RecipesPage;
+export default CommunityPage;

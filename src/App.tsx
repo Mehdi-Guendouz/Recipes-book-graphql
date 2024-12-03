@@ -5,6 +5,8 @@ import Layout from "./components/shared/Layout";
 import PrivateRoutes from "./components/shared/PrivateRoutes";
 import RegisterPage from "./pages/RegisterPage";
 import RecipesPage from "./pages/RecipesPage";
+import CommunityPage from "./pages/ComunityPage";
+import CategoryPage from "./pages/Category";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Route path="/" element={<PrivateRoutes />}>
           <Route path="/" element={<Home />} />
           <Route path="/recipes" element={<RecipesPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/category" element={<CategoryPage />} />
         </Route>
       </Route>
       <Route path="/login" element={<LoginPage />} />

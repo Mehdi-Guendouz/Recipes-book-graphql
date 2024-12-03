@@ -45,6 +45,7 @@ import {
 } from "../ui/select";
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
+import { useRecipeStore } from "@/hooks/recipe-store";
 
 type AddRecipeProps = {
   recipe?: recipeType;
@@ -57,9 +58,10 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
   const ingredientsStore = useIngredientsStore();
   const [loading, setLoading] = useState(true);
   const [ingredientsSelected, setIngredientsSelected] = useState<
-    ingredientsType[]
+    categoryType[]
   >([]);
   const [categories, setCategories] = useState<categoryType[]>([]);
+  const recipeStore = useRecipeStore();
   console.log(loading);
 
   const handelAddIngredients = (ingredient: ingredientsType) => {
@@ -127,10 +129,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
       getIngredients {
         id
         name
-        recipes {
-          id
-          title
-        }
+  
       }
     }
   `;
@@ -158,14 +157,90 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
         toast.error("please select at least one ingredient");
         return;
       }
-      if (isEdit) {
+      if (recipe?.id) {
+        const query = `
+      mutation updateRecipe(
+        $id: ID!,
+        $title: String!,
+        $description: String!,
+        $difficulty: String!,
+        $time: Int!,
+        $ingredients: [String!]!,
+        $category: String!
+      ) {
+        updateRecipe(
+          id: $id,
+          title: $title,
+          description: $description,
+          difficulty: $difficulty,
+          time: $time,
+          ingredients: $ingredients,
+          category: $category
+        ) {
+          id
+          title
+          description
+          difficulty
+          time
+          ingredients {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+        }
+      }
+    `;
+
+        axiosInstance
+          .post("/", {
+            query,
+            variables: {
+              id: recipe.id,
+              title: data.title,
+              description: data.description,
+              difficulty: data.difficulty,
+              time: data.time,
+              // ingredients: ingredientsSelected.map(
+              //   (ingredient) => ingredient.name
+              // ),
+              category: data.category,
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            toast.success(" the recipe has been updated successfully ");
+            recipeStore.updateRecipe(res.data.data.createRecipe);
+            recipeForm.reset();
+            closeModal();
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error("  something went wrong try again");
+          });
         // edit recipe
       } else {
         const query = `mutation Mutation($title: String!, $ingredients: [String!]!, $category: String!, $description: String, $difficulty: String, $time: Int) {
   createRecipe(title: $title, ingredients: $ingredients, category: $category, description: $description, difficulty: $difficulty, time: $time) {
-    id
-    title
-    description
+     id
+          title
+          description
+          difficulty
+          time
+          ingredients {
+            id
+            name
+          }
+          category {
+            id
+            name
+          }
+          createdBy {
+            id
+            username
+          }
   }
 }`;
         axiosInstance
@@ -185,7 +260,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
           .then((res) => {
             console.log(res.data);
             toast.success(" the recipe has been added successfully ");
-
+            recipeStore.addRecipe(res.data.data.createRecipe);
             recipeForm.reset();
             closeModal();
           })
@@ -211,6 +286,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
         difficulty: recipe.difficulty,
         time: recipe.time,
       });
+      setIngredientsSelected(recipe.ingredients);
     }
   }, [reset, recipe]);
 
@@ -454,7 +530,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
                   variant={"default"}
                   disabled={isPending}
                 >
-                  Add
+                  {isEdit ? "update" : "add"}
                 </Button>
                 <Button
                   type="button"

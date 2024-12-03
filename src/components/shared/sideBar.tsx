@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   CookingPot,
+  Globe,
   LogOutIcon,
   ShoppingBasket,
   UserRound,
@@ -12,7 +13,7 @@ const SideBar = () => {
   const navLinks = [
     {
       englishName: "Ingredients",
-      path: "/ingredients",
+      path: "/",
       LightIcon: <ShoppingBasket color="#696D74" />,
       DarkIcon: <ShoppingBasket color="#696D74" />,
     },
@@ -23,18 +24,23 @@ const SideBar = () => {
       DarkIcon: <CookingPot color="#696D74" />,
     },
     {
+      englishName: "Community",
+      path: "/community",
+      LightIcon: <Globe color="#696D74" />,
+      DarkIcon: <Globe color="#696D74" />,
+    },
+    {
+      englishName: "categories",
+      path: "/category",
+      LightIcon: <Globe color="#696D74" />,
+      DarkIcon: <Globe color="#696D74" />,
+    },
+    {
       englishName: "Profile",
       path: "/profile",
       LightIcon: <UserRound color="#696D74" />,
       DarkIcon: <UserRound color="#696D74" />,
     },
-    // {
-    //   arabicName: " فواتيري",
-    //   englishName: "billings",
-    //   path: "/billings",
-    //   LightIcon: <Icons.WalletIcon />,
-    //   DarkIcon: <Icons.WalletIcon />,
-    // },
   ] as const;
   const path = useLocation().pathname.split("/")[1];
   const user = useUserStore();

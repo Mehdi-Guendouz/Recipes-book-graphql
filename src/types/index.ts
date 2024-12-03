@@ -23,3 +23,17 @@ export type recipeType = {
   ingredients: categoryType[];
   category: categoryType;
 };
+
+export type recipeCommunityType = {
+  id: string;
+  description: string;
+  title: string;
+  difficulty: string;
+  time: number;
+  ingredients: categoryType[];
+  category: categoryType;
+  createdBy: {
+    id: string;
+    username: string;
+  };
+};

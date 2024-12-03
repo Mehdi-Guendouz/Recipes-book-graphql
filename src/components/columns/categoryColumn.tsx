@@ -1,11 +1,11 @@
-import { ingredientsType } from "@/types";
+import { categoryType } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
-import AddIngredientModal from "../modal/AddIngredientModal";
 import AlertDialogModal from "../modal/AlertDialogModal";
+import AddCategoryModal from "../modal/AddCategoryModal";
 
-export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
+export const categoriesColumn: ColumnDef<categoryType>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -48,46 +48,7 @@ export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
       );
     },
   },
-  {
-    accessorKey: "recipes",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 "
-        >
-          List of Recipes
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const recipes = row.original.recipes;
-      return (
-        <div className="flex items-center justify-start">
-          {recipes.length > 0 ? (
-            <div>
-              <div className="flex flex-wrap gap-2">
-                {recipes.map((recipe) => (
-                  <div
-                    key={recipe.id}
-                    className="flex flex-wrap items-center justify-center bg-primary-green-dark text-white px-2 py-1 rounded-md"
-                  >
-                    {recipe.title}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="text-primary-grey-100">
-              No recipes be the first to use it
-            </div>
-          )}
-        </div>
-      );
-    },
-  },
+
   {
     accessorKey: "actions",
     header: () => {
@@ -96,11 +57,11 @@ export const ingredientsColumn: ColumnDef<ingredientsType>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-start gap-1">
-          <AddIngredientModal ingredient={row.original} isEdit />
+          <AddCategoryModal isEdit category={row.original} />
           <AlertDialogModal
             text={row.original.name}
             id={row.original.id}
-            isIngredientDeleted
+            isCategoryDeleted
           />
         </div>
       );
