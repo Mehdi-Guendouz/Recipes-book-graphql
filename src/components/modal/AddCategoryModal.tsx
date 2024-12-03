@@ -24,6 +24,7 @@ import {
   IngredientsSchemaType,
 } from "@/validation/ingredients-validator";
 import { useCategoryStore } from "@/hooks/category-store";
+import { useQueryStore } from "@/hooks/query-store";
 
 type AddCategoryModalProps = {
   category?: categoryType;
@@ -34,6 +35,7 @@ const AddCategoryModal = ({ category, isEdit }: AddCategoryModalProps) => {
   const [isOpen, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const categorysStore = useCategoryStore();
+  const queryStore = useQueryStore();
 
   const closeModal = () => {
     setOpen(false);
@@ -71,6 +73,7 @@ const AddCategoryModal = ({ category, isEdit }: AddCategoryModalProps) => {
           })
           .then((res) => {
             console.log(res.data);
+            queryStore.setQuery(query);
             toast.success(" the category has been updated successfully ");
             categorysStore.updateCategory(res.data.data.updateCategory);
             categorysForm.reset();
@@ -96,6 +99,7 @@ const AddCategoryModal = ({ category, isEdit }: AddCategoryModalProps) => {
           })
           .then((res) => {
             console.log(res.data);
+            queryStore.setQuery(query);
             toast.success(" the category has been added successfully ");
             categorysStore.addCategory(res.data.data.createCategory);
             categorysForm.reset();

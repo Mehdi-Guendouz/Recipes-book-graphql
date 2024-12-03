@@ -17,6 +17,22 @@
   }
 }
 
+/*  */
+
+pre {
+  background-color: #f5f2f0; /* Light background */
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: "Fira Code", monospace; /* Use a coding font */
+}
+
+/*  */
+
 .background-Image {
   background-image: url("/src/assets/ingredients_4.jpg");
   background-size: cover;

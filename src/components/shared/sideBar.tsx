@@ -9,6 +9,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { useUserStore } from "@/hooks/user-store";
+import { useQueryStore } from "@/hooks/query-store";
 
 const SideBar = () => {
   const navLinks = [
@@ -50,6 +51,7 @@ const SideBar = () => {
   //     {} as userInformationType
   //   );
   const navigate = useNavigate();
+  const queryStore = useQueryStore();
 
   const handleLogOut = () => {
     user.logout();
@@ -109,7 +111,18 @@ const SideBar = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex items-end justify-end py-14 gap-4 h-full ">
+        <div
+          className={cn(
+            "flex items-end  py-14 gap-4 h-full flex-col  ",
+            queryStore.query ? "justify-between" : "justify-end"
+          )}
+        >
+          {queryStore.query && (
+            <div className="bg-primary-red text-white p-1 rounded-md w-full h-full px-2">
+              <p className="capitalize">the query executed is: </p>
+              <p className="">{queryStore.query}</p>
+            </div>
+          )}
           <div
             onClick={handleLogOut}
             className="w-full flex items-center justify-start gap-4 cursor-pointer"

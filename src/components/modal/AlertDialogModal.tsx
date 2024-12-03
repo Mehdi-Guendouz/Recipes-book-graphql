@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useRecipeStore } from "@/hooks/recipe-store";
 import { useIngredientsStore } from "@/hooks/ingreditents-store";
 import { useCategoryStore } from "@/hooks/category-store";
+import { useQueryStore } from "@/hooks/query-store";
 
 type AlertDialogModalProps = {
   isRecipeDeleted?: boolean;
@@ -37,6 +38,7 @@ const AlertDialogModal = ({
   const recipeStore = useRecipeStore();
   const ingredientsStore = useIngredientsStore();
   const categoryStore = useCategoryStore();
+  const queryStore = useQueryStore();
 
   const handleDelete = () => {
     setLoading(true);
@@ -54,6 +56,7 @@ const AlertDialogModal = ({
         .then((res) => {
           console.log(res.data);
           toast.success("Recipe deleted successfully");
+          queryStore.setQuery(query);
           recipeStore.removeRecipe(id);
         })
         .catch((error) => {
@@ -76,6 +79,7 @@ const AlertDialogModal = ({
           console.log(res.data);
           toast.success("ingredient deleted successfully");
           ingredientsStore.removeIngredient(id);
+          queryStore.setQuery(query);
         })
         .catch((error) => {
           console.error(error);
@@ -97,6 +101,7 @@ const AlertDialogModal = ({
           console.log(res.data);
           toast.success("category deleted successfully");
           categoryStore.removeCategory(id);
+          queryStore.setQuery(query);
         })
         .catch((error) => {
           console.error(error);

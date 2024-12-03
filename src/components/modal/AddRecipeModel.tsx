@@ -46,6 +46,7 @@ import {
 import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
 import { useRecipeStore } from "@/hooks/recipe-store";
+import { useQueryStore } from "@/hooks/query-store";
 
 type AddRecipeProps = {
   recipe?: recipeType;
@@ -62,6 +63,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
   >([]);
   const [categories, setCategories] = useState<categoryType[]>([]);
   const recipeStore = useRecipeStore();
+  const queryStore = useQueryStore();
   console.log(loading);
 
   const handelAddIngredients = (ingredient: ingredientsType) => {
@@ -113,6 +115,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
       .then((res) => {
         console.log(res.data);
         setCategories(res.data.data.categories);
+        // queryStore.setQuery(query);
       })
       .catch((error) => {
         console.error(error);
@@ -140,6 +143,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
       .then((res) => {
         console.log(res.data);
         ingredientsStore.setIngredients(res.data.data.getIngredients);
+        // queryStore.setQuery(query);
       })
       .catch((error) => {
         console.error(error);
@@ -214,6 +218,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
             toast.success(" the recipe has been updated successfully ");
             recipeStore.updateRecipe(res.data.data.createRecipe);
             recipeForm.reset();
+            queryStore.setQuery(query);
             closeModal();
           })
           .catch((err) => {
@@ -260,6 +265,7 @@ const AddRecipeModel = ({ isEdit, recipe }: AddRecipeProps) => {
           .then((res) => {
             console.log(res.data);
             toast.success(" the recipe has been added successfully ");
+            queryStore.setQuery(query);
             recipeStore.addRecipe(res.data.data.createRecipe);
             recipeForm.reset();
             closeModal();

@@ -23,6 +23,7 @@ import { ingredientsType } from "@/types";
 import { axiosInstance } from "@/api/config";
 import { toast } from "sonner";
 import { useIngredientsStore } from "@/hooks/ingreditents-store";
+import { useQueryStore } from "@/hooks/query-store";
 
 type AddCategoryModalProps = {
   ingredient?: ingredientsType;
@@ -33,6 +34,7 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
   const [isOpen, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const ingredientsStore = useIngredientsStore();
+  const queryStore = useQueryStore();
 
   const closeModal = () => {
     setOpen(false);
@@ -71,6 +73,7 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
           .then((res) => {
             console.log(res.data);
             toast.success(" the ingredient has been updated successfully ");
+            queryStore.setQuery(query);
             IngredientsForm.reset();
             closeModal();
           })
@@ -95,6 +98,7 @@ const AddIngredientModal = ({ ingredient, isEdit }: AddCategoryModalProps) => {
           .then((res) => {
             console.log(res.data);
             toast.success(" the ingredient has been added successfully ");
+            queryStore.setQuery(query);
             ingredientsStore.addIngredient({
               ...res.data.data.createIngredient,
               recipes: [],
