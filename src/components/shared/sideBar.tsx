@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
+  ChartBarStacked,
   CookingPot,
   Globe,
   LogOutIcon,
@@ -18,6 +19,12 @@ const SideBar = () => {
       DarkIcon: <ShoppingBasket color="#696D74" />,
     },
     {
+      englishName: "categories",
+      path: "/category",
+      LightIcon: <ChartBarStacked color="#696D74" />,
+      DarkIcon: <ChartBarStacked color="#696D74" />,
+    },
+    {
       englishName: "Recipes",
       path: "/recipes",
       LightIcon: <CookingPot color="#696D74" />,
@@ -29,12 +36,7 @@ const SideBar = () => {
       LightIcon: <Globe color="#696D74" />,
       DarkIcon: <Globe color="#696D74" />,
     },
-    {
-      englishName: "categories",
-      path: "/category",
-      LightIcon: <Globe color="#696D74" />,
-      DarkIcon: <Globe color="#696D74" />,
-    },
+
     {
       englishName: "Profile",
       path: "/profile",
